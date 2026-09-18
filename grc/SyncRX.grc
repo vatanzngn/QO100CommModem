@@ -1,0 +1,451 @@
+options:
+  parameters:
+    author: Vatan Zengin TA7WRS, PE4WJ, EA4GPZ
+    catch_exceptions: 'True'
+    category: '[QO100-Communication Satellite]'
+    cmake_opt: ''
+    comment: ''
+    copyright: ''
+    description: QO100 BPSK RX Beacon shift lock algorithm. Output rate matches input
+      rate (samp_rate). Internal beacon tracking runs at samp_rate/decimation for
+      efficiency, error signal is interpolated back to samp_rate before VCO.
+    gen_cmake: 'On'
+    gen_linking: dynamic
+    generate_options: hb
+    hier_block_src_path: '.:'
+    id: RXSync
+    max_nouts: '0'
+    output_language: python
+    placement: (0,0)
+    qt_qss_theme: ''
+    realtime_scheduling: ''
+    run: 'True'
+    run_command: '{python} -u {filename}'
+    run_options: prompt
+    sizing_mode: fixed
+    thread_safe_setters: ''
+    title: QO100 Beacon Tracker
+    window_size: 2400, 1600
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 8]
+    rotation: 0
+    state: enabled
+
+blocks:
+- name: decimation
+  id: variable
+  parameters:
+    comment: ''
+    value: '10'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1080, 12.0]
+    rotation: 0
+    state: enabled
+- name: rs_taps_dec
+  id: variable
+  parameters:
+    comment: Explicit taps for decim resampler
+    value: firdes.low_pass(decimation, samp_rate, samp_rate/(2*decimation)*0.9, samp_rate/(2*decimation)*0.1,
+      window.WIN_HAMMING)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [744, 12.0]
+    rotation: 0
+    state: enabled
+- name: rs_taps_int
+  id: variable
+  parameters:
+    comment: Explicit taps for interp resampler
+    value: firdes.low_pass(decimation, samp_rate, samp_rate/(2*decimation)*0.9, samp_rate/(2*decimation)*0.1,
+      window.WIN_HAMMING)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [912, 12.0]
+    rotation: 0
+    state: enabled
+- name: analog_agc2_xx_0_0
+  id: analog_agc2_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    attack_rate: 1e-3
+    comment: ''
+    decay_rate: 1e-4
+    gain: '10'
+    max_gain: '65536'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    reference: '1.0'
+    type: complex
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [664, 236.0]
+    rotation: 0
+    state: enabled
+- name: analog_sig_source_x_0
+  id: analog_sig_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    amp: '1'
+    comment: ''
+    freq: (-1*expected_beacon_freq)
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    offset: '0'
+    phase: '0'
+    samp_rate: samp_rate
+    showports: 'False'
+    type: complex
+    waveform: analog.GR_COS_WAVE
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [308.0, 352]
+    rotation: 270
+    state: enabled
+- name: beacontrack_bw
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: Filter Bandwith
+    short_id: ''
+    type: eng_float
+    value: '5000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [192, 12.0]
+    rotation: 0
+    state: enabled
+- name: blocks_multiply_xx_0_0
+  id: blocks_multiply_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_inputs: '2'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [600, 600.0]
+    rotation: 0
+    state: enabled
+- name: blocks_multiply_xx_1
+  id: blocks_multiply_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_inputs: '2'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [480, 536.0]
+    rotation: 0
+    state: enabled
+- name: blocks_null_sink_0
+  id: blocks_null_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    bus_structure_sink: '[[0,],]'
+    comment: ''
+    num_inputs: '1'
+    type: float
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1128, 304.0]
+    rotation: 0
+    state: enabled
+- name: blocks_selector_0
+  id: blocks_selector
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    enabled: 'True'
+    input_index: enable
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_inputs: '2'
+    num_outputs: '1'
+    output_index: '0'
+    showports: 'True'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [760, 700.0]
+    rotation: 0
+    state: enabled
+- name: blocks_vco_c_0
+  id: blocks_vco_c
+  parameters:
+    affinity: ''
+    alias: ''
+    amplitude: '1'
+    comment: VCO runs at samp_rate
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samp_rate: samp_rate
+    sensitivity: -1*(samp_rate/decimation)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [520, 412.0]
+    rotation: 180
+    state: enabled
+- name: digital_costas_loop_cc_0
+  id: digital_costas_loop_cc
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: Costas runs at samp_rate/decimation
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    order: '2'
+    use_snr: 'False'
+    w: loop_bw
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [864, 240.0]
+    rotation: 0
+    state: enabled
+- name: enable
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: Enable
+    short_id: ''
+    type: intx
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1176, 12.0]
+    rotation: 0
+    state: enabled
+- name: expected_beacon_freq
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: Expected Freq
+    short_id: ''
+    type: eng_float
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [464, 12.0]
+    rotation: 0
+    state: enabled
+- name: freq_xlating_fir_filter_xxx_0
+  id: freq_xlating_fir_filter_xxx
+  parameters:
+    affinity: ''
+    alias: ''
+    center_freq: expected_beacon_freq
+    comment: Channelizer at samp_rate/decimation
+    decim: '10'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samp_rate: samp_rate
+    taps: firdes.low_pass(1.0, samp_rate/decimation, beacontrack_bw/2, 500, window.WIN_HAMMING)
+    type: ccc
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [384, 244.0]
+    rotation: 0
+    state: enabled
+- name: loop_bw
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: Costas Loop BW
+    short_id: ''
+    type: eng_float
+    value: '0.015'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [328, 12.0]
+    rotation: 0
+    state: enabled
+- name: pad_sink_0_0
+  id: pad_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    label: out
+    num_streams: '1'
+    optional: 'False'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [952, 732.0]
+    rotation: 0
+    state: enabled
+- name: pad_sink_costas
+  id: pad_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    label: costas_out
+    num_streams: '1'
+    optional: 'False'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1128, 236.0]
+    rotation: 0
+    state: enabled
+- name: pad_sink_filtered
+  id: pad_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    label: filtered_out
+    num_streams: '1'
+    optional: 'False'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [664, 188.0]
+    rotation: 0
+    state: enabled
+- name: pad_source_0
+  id: pad_source
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: Input at samp_rate
+    label: in
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_streams: '1'
+    optional: 'False'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [80, 524.0]
+    rotation: 0
+    state: enabled
+- name: rational_resampler_xxx_0
+  id: rational_resampler_xxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    decim: '1'
+    fbw: '0'
+    interp: decimation
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    taps: rs_taps_int
+    type: fff
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [912, 404.0]
+    rotation: 180
+    state: enabled
+- name: samp_rate
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: Sampling Rate
+    short_id: ''
+    type: intx
+    value: '960000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [616, 12.0]
+    rotation: 0
+    state: enabled
+
+connections:
+- [analog_agc2_xx_0_0, '0', digital_costas_loop_cc_0, '0']
+- [analog_sig_source_x_0, '0', blocks_multiply_xx_1, '1']
+- [blocks_multiply_xx_0_0, '0', blocks_selector_0, '1']
+- [blocks_multiply_xx_1, '0', blocks_multiply_xx_0_0, '0']
+- [blocks_selector_0, '0', pad_sink_0_0, '0']
+- [blocks_vco_c_0, '0', blocks_multiply_xx_1, '0']
+- [digital_costas_loop_cc_0, '0', pad_sink_costas, '0']
+- [digital_costas_loop_cc_0, '1', rational_resampler_xxx_0, '0']
+- [digital_costas_loop_cc_0, '2', blocks_null_sink_0, '0']
+- [freq_xlating_fir_filter_xxx_0, '0', analog_agc2_xx_0_0, '0']
+- [freq_xlating_fir_filter_xxx_0, '0', pad_sink_filtered, '0']
+- [pad_source_0, '0', blocks_multiply_xx_0_0, '1']
+- [pad_source_0, '0', blocks_selector_0, '0']
+- [pad_source_0, '0', freq_xlating_fir_filter_xxx_0, '0']
+- [rational_resampler_xxx_0, '0', blocks_vco_c_0, '0']
+
+metadata:
+  file_format: 1
+  grc_version: 3.10.12.0

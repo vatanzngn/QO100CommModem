@@ -1,0 +1,538 @@
+options:
+  parameters:
+    author: Vatan Zengin
+    catch_exceptions: 'True'
+    category: '[QO100-Communication Satellite]'
+    cmake_opt: ''
+    comment: ''
+    copyright: Copyright (c) 2026 Vatan Zengin. Licensed under GPL v3.
+    description: ''
+    gen_cmake: 'On'
+    gen_linking: dynamic
+    generate_options: hb
+    hier_block_src_path: '.:'
+    id: QO100_QPSKDataModem_TX_nofec
+    max_nouts: '0'
+    output_language: python
+    placement: (0,0)
+    qt_qss_theme: ''
+    realtime_scheduling: ''
+    run: 'True'
+    run_command: '{python} -u {filename}'
+    run_options: prompt
+    sizing_mode: fixed
+    thread_safe_setters: ''
+    title: QPSK DataModem TX NoFEC
+    window_size: (1000,1000)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 8]
+    rotation: 0
+    state: enabled
+
+blocks:
+- name: bb_samp_rate
+  id: variable
+  parameters:
+    comment: ''
+    value: '8000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [736, 28.0]
+    rotation: 0
+    state: enabled
+- name: constel
+  id: variable_constellation_rect
+  parameters:
+    comment: ''
+    const_points: '[1+1j, -1+1j, -1-1j, 1-1j]'
+    imag_sect: '2'
+    precision: '8'
+    real_sect: '2'
+    rot_sym: '4'
+    soft_dec_lut: None
+    sym_map: '[0, 1, 2, 3]'
+    w_imag_sect: '1'
+    w_real_sect: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 148.0]
+    rotation: 0
+    state: enabled
+- name: payload_size
+  id: variable
+  parameters:
+    comment: ''
+    value: '512'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [840, 28.0]
+    rotation: 0
+    state: enabled
+- name: sps
+  id: variable
+  parameters:
+    comment: ''
+    value: '4'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [672, 28.0]
+    rotation: 0
+    state: enabled
+- name: analog_sig_source_x_0_0_0
+  id: analog_sig_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    amp: '1'
+    comment: ''
+    freq: freq_offs
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    offset: '0'
+    phase: '0'
+    samp_rate: samp_rate
+    showports: 'False'
+    type: complex
+    waveform: analog.GR_COS_WAVE
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [728, 760.0]
+    rotation: 0
+    state: enabled
+- name: blocks_multiply_const_vxx_0_0
+  id: blocks_multiply_const_vxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    const: gain
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [592, 664.0]
+    rotation: 0
+    state: enabled
+- name: blocks_multiply_xx_0_0_0
+  id: blocks_multiply_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_inputs: '2'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [968, 720.0]
+    rotation: 0
+    state: enabled
+- name: blocks_stream_to_tagged_stream_0_0_0_0_0_0
+  id: blocks_stream_to_tagged_stream
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    len_tag_key: '"packet_len"'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    packet_len: '64'
+    type: byte
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [944, 504.0]
+    rotation: 0
+    state: enabled
+- name: blocks_stream_to_tagged_stream_0_0_0_0_1
+  id: blocks_stream_to_tagged_stream
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    len_tag_key: '"packet_len"'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    packet_len: '384'
+    type: byte
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [944, 208.0]
+    rotation: 0
+    state: enabled
+- name: blocks_tagged_stream_mux_0_1
+  id: blocks_tagged_stream_mux
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    lengthtagname: packet_len
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    ninputs: '4'
+    tag_preserve_head_pos: '0'
+    type: byte
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1184, 328.0]
+    rotation: 0
+    state: enabled
+- name: blocks_vector_source_x_0_0_0
+  id: blocks_vector_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: Postamble
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    repeat: 'True'
+    tags: '[]'
+    type: byte
+    vector: '[192, 175]'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [792, 496.0]
+    rotation: 0
+    state: enabled
+- name: blocks_vector_source_x_0_1
+  id: blocks_vector_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: Preamble
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    repeat: 'True'
+    tags: '[]'
+    type: byte
+    vector: '[0xc0, 0xaf]'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [792, 200.0]
+    rotation: 0
+    state: enabled
+- name: digital_additive_scrambler_xx_0
+  id: digital_additive_scrambler_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    bits_per_byte: '8'
+    comment: ''
+    count: '0'
+    len: '7'
+    mask: '0x8A'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    reset_tag_key: '"packet_len"'
+    seed: '0x7F'
+    type: byte
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [688, 344.0]
+    rotation: 0
+    state: enabled
+- name: digital_constellation_modulator_0_0
+  id: digital_constellation_modulator
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    constellation: constel
+    differential: 'False'
+    excess_bw: '0.35'
+    log: 'False'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samples_per_symbol: sps
+    truncate: 'False'
+    verbose: 'False'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [368, 640.0]
+    rotation: 0
+    state: enabled
+- name: digital_protocol_formatter_bb_0_0
+  id: digital_protocol_formatter_bb
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    format: digital.header_format_default(digital.packet_utils.default_access_code,
+      0)
+    len_tag_key: packet_len
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [912, 304.0]
+    rotation: 0
+    state: enabled
+- name: epy_block_0
+  id: epy_block
+  parameters:
+    _source_code: "\"\"\"\nStream Continuous Padder - Vatan Z. (v3)\nBurst stream\
+      \ in, continuous stream out (zero-padded when no input).\nUses gr.basic_block\
+      \ + forecast()=[0] to allow output without input.\n\"\"\"\n\nimport numpy as\
+      \ np\nfrom gnuradio import gr\n\nclass blk(gr.basic_block):\n    def __init__(self):\n\
+      \        gr.basic_block.__init__(\n            self,\n            name='Stream\
+      \ Continuous Padder',\n            in_sig=[np.complex64],\n            out_sig=[np.complex64]\n\
+      \        )\n        self.fifo = np.array([], dtype=np.complex64)\n\n    def\
+      \ forecast(self, noutput_items, ninputs):\n        return [0]\n\n    def general_work(self,\
+      \ input_items, output_items):\n        out = output_items[0]\n        n_out\
+      \ = len(out)\n\n        if len(input_items) > 0 and len(input_items[0]) > 0:\n\
+      \            inp = input_items[0]\n            n_in = len(inp)\n           \
+      \ self.fifo = np.append(self.fifo, inp)\n            self.consume(0, n_in)\n\
+      \n        fifo_len = len(self.fifo)\n        if fifo_len >= n_out:\n       \
+      \     out[:] = self.fifo[:n_out]\n            self.fifo = self.fifo[n_out:]\n\
+      \        elif fifo_len > 0:\n            out[:fifo_len] = self.fifo\n      \
+      \      out[fifo_len:] = 0\n            self.fifo = np.array([], dtype=np.complex64)\n\
+      \        else:\n            out[:] = 0\n\n        return n_out\n"
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    _io_cache: ('Stream Continuous Padder', 'blk', [], [('0', 'complex', 1)], [('0',
+      'complex', 1)], '', [])
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1088, 736.0]
+    rotation: 0
+    state: enabled
+- name: freq_offs
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: Frequency Offset
+    short_id: ''
+    type: intx
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [176, 8.0]
+    rotation: 0
+    state: enabled
+- name: gain
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: TX Gain
+    short_id: ''
+    type: eng_float
+    value: '0.5'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [520, 4.0]
+    rotation: 0
+    state: enabled
+- name: network_socket_pdu_0_0_0
+  id: network_socket_pdu
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    host: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    mtu: '10000'
+    port: str(port)
+    tcp_no_delay: 'True'
+    type: TCP_SERVER
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [240, 352.0]
+    rotation: 0
+    state: enabled
+- name: pdu_pdu_to_tagged_stream_0_0
+  id: pdu_pdu_to_tagged_stream
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: carries FEC encoded payload
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    tag: packet_len
+    type: byte
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [464, 384.0]
+    rotation: 0
+    state: enabled
+- name: port
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: TX Port
+    short_id: ''
+    type: intx
+    value: '5001'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [432, 8.0]
+    rotation: 0
+    state: enabled
+- name: rational_resampler_xxx_0_0
+  id: rational_resampler_xxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    decim: '1'
+    fbw: '0'
+    interp: int(samp_rate/bb_samp_rate)
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    taps: '[]'
+    type: ccc
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [752, 640.0]
+    rotation: 0
+    state: enabled
+- name: samp_rate
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: Sampling Rate
+    short_id: ''
+    type: intx
+    value: '960000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [312, 8.0]
+    rotation: 0
+    state: enabled
+- name: sdr_tx
+  id: pad_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    label: out
+    num_streams: '1'
+    optional: 'False'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1312, 728.0]
+    rotation: 0
+    state: enabled
+- name: virtual_sink_0
+  id: virtual_sink
+  parameters:
+    alias: ''
+    comment: ''
+    stream_id: packaged_data
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1400, 368.0]
+    rotation: 0
+    state: enabled
+- name: virtual_source_0
+  id: virtual_source
+  parameters:
+    alias: ''
+    comment: ''
+    stream_id: packaged_data
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [168, 664.0]
+    rotation: 0
+    state: enabled
+
+connections:
+- [analog_sig_source_x_0_0_0, '0', blocks_multiply_xx_0_0_0, '1']
+- [blocks_multiply_const_vxx_0_0, '0', rational_resampler_xxx_0_0, '0']
+- [blocks_multiply_xx_0_0_0, '0', epy_block_0, '0']
+- [blocks_stream_to_tagged_stream_0_0_0_0_0_0, '0', blocks_tagged_stream_mux_0_1,
+  '3']
+- [blocks_stream_to_tagged_stream_0_0_0_0_1, '0', blocks_tagged_stream_mux_0_1, '0']
+- [blocks_tagged_stream_mux_0_1, '0', virtual_sink_0, '0']
+- [blocks_vector_source_x_0_0_0, '0', blocks_stream_to_tagged_stream_0_0_0_0_0_0,
+  '0']
+- [blocks_vector_source_x_0_1, '0', blocks_stream_to_tagged_stream_0_0_0_0_1, '0']
+- [digital_additive_scrambler_xx_0, '0', blocks_tagged_stream_mux_0_1, '2']
+- [digital_additive_scrambler_xx_0, '0', digital_protocol_formatter_bb_0_0, '0']
+- [digital_constellation_modulator_0_0, '0', blocks_multiply_const_vxx_0_0, '0']
+- [digital_protocol_formatter_bb_0_0, '0', blocks_tagged_stream_mux_0_1, '1']
+- [epy_block_0, '0', sdr_tx, '0']
+- [network_socket_pdu_0_0_0, pdus, pdu_pdu_to_tagged_stream_0_0, pdus]
+- [pdu_pdu_to_tagged_stream_0_0, '0', digital_additive_scrambler_xx_0, '0']
+- [rational_resampler_xxx_0_0, '0', blocks_multiply_xx_0_0_0, '0']
+- [virtual_source_0, '0', digital_constellation_modulator_0_0, '0']
+
+metadata:
+  file_format: 1
+  grc_version: 3.10.12.0

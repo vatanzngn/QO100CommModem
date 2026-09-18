@@ -1,0 +1,189 @@
+options:
+  parameters:
+    author: Vatan Zengin TA7WRS
+    catch_exceptions: 'True'
+    category: '[QO100-Communication Satellite]'
+    cmake_opt: ''
+    comment: ''
+    copyright: Copyright (c) 2026 Vatan Zengin. Licensed under GPL v3.
+    description: TX calibration tone generator. Tone amplitude is gated by enable.
+    gen_cmake: 'On'
+    gen_linking: dynamic
+    generate_options: hb
+    hier_block_src_path: '.:'
+    id: QO100_TXSyncCal_TX
+    max_nouts: '0'
+    output_language: python
+    placement: (0,0)
+    qt_qss_theme: ''
+    realtime_scheduling: ''
+    run: 'True'
+    run_command: '{python} -u {filename}'
+    run_options: prompt
+    sizing_mode: fixed
+    thread_safe_setters: ''
+    title: TX Sync Calibrator - TX
+    window_size: (1000,1000)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 8]
+    rotation: 0
+    state: enabled
+
+blocks:
+- name: samp_rate
+  id: variable
+  parameters:
+    comment: SDR sample rate
+    value: '960000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [192, 12.0]
+    rotation: 0
+    state: enabled
+- name: analog_sig_source_x_0_0
+  id: analog_sig_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    amp: '1'
+    comment: ''
+    freq: debug_tone_offset
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    offset: '0'
+    phase: '0'
+    samp_rate: samp_rate
+    showports: 'False'
+    type: complex
+    waveform: analog.GR_COS_WAVE
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [16, 316.0]
+    rotation: 0
+    state: enabled
+- name: blocks_multiply_xx_0
+  id: blocks_multiply_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_inputs: '2'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [288, 264.0]
+    rotation: 0
+    state: enabled
+- name: cal_tone
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: Cal Tone (Hz)
+    short_id: ''
+    type: intx
+    value: '10000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [296, 12.0]
+    rotation: 0
+    state: enabled
+- name: debug_tone_offset
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: Debug Tone Offset (Hz)
+    short_id: ''
+    type: intx
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [552, 12.0]
+    rotation: 0
+    state: enabled
+- name: enable
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: Cal Enable (1/0)
+    short_id: ''
+    type: intx
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [416, 12.0]
+    rotation: 0
+    state: enabled
+- name: sig_ref
+  id: analog_sig_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    amp: enable
+    comment: cal tone, amp = enable
+    freq: cal_tone
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    offset: '0'
+    phase: '0'
+    samp_rate: samp_rate
+    showports: 'False'
+    type: complex
+    waveform: analog.GR_COS_WAVE
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [16, 172.0]
+    rotation: 0
+    state: enabled
+- name: tx_out
+  id: pad_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    label: tx_out
+    num_streams: '1'
+    optional: 'False'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [416, 276.0]
+    rotation: 0
+    state: enabled
+
+connections:
+- [analog_sig_source_x_0_0, '0', blocks_multiply_xx_0, '1']
+- [blocks_multiply_xx_0, '0', tx_out, '0']
+- [sig_ref, '0', blocks_multiply_xx_0, '0']
+
+metadata:
+  file_format: 1
+  grc_version: 3.10.12.0

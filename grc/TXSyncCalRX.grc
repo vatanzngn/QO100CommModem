@@ -1,0 +1,374 @@
+options:
+  parameters:
+    author: Vatan Zengin TA7WRS
+    catch_exceptions: 'True'
+    category: '[QO100-Communication Satellite]'
+    cmake_opt: ''
+    comment: ''
+    copyright: Copyright (c) 2026 Vatan Zengin. Licensed under GPL v3.
+    description: TX frequency offset measurement. Delay-conjugate FLL discriminator
+      over a 4 kHz window.
+    gen_cmake: 'On'
+    gen_linking: dynamic
+    generate_options: hb
+    hier_block_src_path: '.:'
+    id: QO100_TXSyncCal_RX
+    max_nouts: '0'
+    output_language: python
+    placement: (0,0)
+    qt_qss_theme: ''
+    realtime_scheduling: ''
+    run: 'True'
+    run_command: '{python} -u {filename}'
+    run_options: prompt
+    sizing_mode: fixed
+    thread_safe_setters: ''
+    title: TX Sync Calibrator - RX
+    window_size: (1000,1000)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 8]
+    rotation: 0
+    state: enabled
+
+blocks:
+- name: avg_len
+  id: variable
+  parameters:
+    comment: 4000 samples @8k = 0.5 s
+    value: '4000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [616, 12.0]
+    rotation: 0
+    state: enabled
+- name: dec1
+  id: variable
+  parameters:
+    comment: 960k -> 48k
+    value: '20'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [288, 12.0]
+    rotation: 0
+    state: enabled
+- name: dec2
+  id: variable
+  parameters:
+    comment: 48k -> 8k
+    value: '6'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [360, 12.0]
+    rotation: 0
+    state: enabled
+- name: fs_meas
+  id: variable
+  parameters:
+    comment: measrate
+    value: samp_rate/(dec1*dec2)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [432, 12.0]
+    rotation: 0
+    state: enabled
+- name: hz_scale
+  id: variable
+  parameters:
+    comment: rad/sample -> Hz
+    value: fs_meas/(2*math.pi)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [512, 12.0]
+    rotation: 0
+    state: enabled
+- name: meas_bw
+  id: variable
+  parameters:
+    comment: measurement window = 4 kHz
+    value: '4000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [696, 12.0]
+    rotation: 0
+    state: enabled
+- name: samp_rate
+  id: variable
+  parameters:
+    comment: SDR sample rate
+    value: '960000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [192, 12.0]
+    rotation: 0
+    state: enabled
+- name: blocks_complex_to_arg_0
+  id: blocks_complex_to_arg
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: rad/sample
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1264, 232.0]
+    rotation: 0
+    state: enabled
+- name: blocks_conjugate_cc_0
+  id: blocks_conjugate_cc
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [768, 248.0]
+    rotation: 0
+    state: enabled
+- name: blocks_delay_0
+  id: blocks_delay
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: D = 1 sample
+    delay: '1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_ports: '1'
+    showports: 'False'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [632, 244.0]
+    rotation: 0
+    state: enabled
+- name: blocks_moving_average_xx_0
+  id: blocks_moving_average_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: coherent averaging before arg()
+    length: avg_len
+    max_iter: '8192'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    scale: 1.0/avg_len
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1080, 204.0]
+    rotation: 0
+    state: enabled
+- name: blocks_multiply_const_hz
+  id: blocks_multiply_const_vxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: rad/sample -> Hz
+    const: hz_scale
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: float
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1424, 228.0]
+    rotation: 0
+    state: enabled
+- name: blocks_multiply_fd
+  id: blocks_multiply_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: x[n] * conj(x[n-1])
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_inputs: '2'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [960, 216.0]
+    rotation: 0
+    state: enabled
+- name: cal_tone
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: Cal Tone (Hz)
+    short_id: ''
+    type: intx
+    value: '10000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [928, 12.0]
+    rotation: 0
+    state: enabled
+- name: freq_err
+  id: pad_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: measured TX offset (Hz)
+    label: freq_err
+    num_streams: '1'
+    optional: 'False'
+    type: float
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1600, 228.0]
+    rotation: 0
+    state: enabled
+- name: freq_xlating_fir_filter_xxx_0
+  id: freq_xlating_fir_filter_xxx
+  parameters:
+    affinity: ''
+    alias: ''
+    center_freq: cal_tone
+    comment: shift cal tone to DC, 960k -> 48k
+    decim: dec1
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samp_rate: samp_rate
+    taps: firdes.low_pass(1.0, samp_rate, 4000, 4000, window.WIN_HAMMING)
+    type: ccc
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [168, 188.0]
+    rotation: 0
+    state: enabled
+- name: import_math
+  id: import
+  parameters:
+    alias: ''
+    comment: ''
+    imports: import math
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [192, 100.0]
+    rotation: 0
+    state: enabled
+- name: low_pass_filter_0
+  id: low_pass_filter
+  parameters:
+    affinity: ''
+    alias: ''
+    beta: '6.76'
+    comment: 4 kHz measurement window, 48k -> 8k
+    cutoff_freq: meas_bw/2
+    decim: dec2
+    gain: '1'
+    interp: '1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samp_rate: samp_rate/dec1
+    type: fir_filter_ccf
+    width: '400'
+    win: window.WIN_HAMMING
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [408, 172.0]
+    rotation: 0
+    state: enabled
+- name: meas_win
+  id: pad_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: 8 kHz measurement window (for freq sink)
+    label: meas_win
+    num_streams: '1'
+    optional: 'True'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [632, 164.0]
+    rotation: 0
+    state: enabled
+- name: rx_in
+  id: pad_source
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: from RXSync output
+    label: rx_in
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_streams: '1'
+    optional: 'False'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [16, 196.0]
+    rotation: 0
+    state: enabled
+
+connections:
+- [blocks_complex_to_arg_0, '0', blocks_multiply_const_hz, '0']
+- [blocks_conjugate_cc_0, '0', blocks_multiply_fd, '1']
+- [blocks_delay_0, '0', blocks_conjugate_cc_0, '0']
+- [blocks_moving_average_xx_0, '0', blocks_complex_to_arg_0, '0']
+- [blocks_multiply_const_hz, '0', freq_err, '0']
+- [blocks_multiply_fd, '0', blocks_moving_average_xx_0, '0']
+- [freq_xlating_fir_filter_xxx_0, '0', low_pass_filter_0, '0']
+- [low_pass_filter_0, '0', blocks_delay_0, '0']
+- [low_pass_filter_0, '0', blocks_multiply_fd, '0']
+- [low_pass_filter_0, '0', meas_win, '0']
+- [rx_in, '0', freq_xlating_fir_filter_xxx_0, '0']
+
+metadata:
+  file_format: 1
+  grc_version: 3.10.12.0

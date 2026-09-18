@@ -1,0 +1,1932 @@
+options:
+  parameters:
+    author: Vatan Zengin TA7WRS
+    catch_exceptions: 'True'
+    category: '[GRC Hier Blocks]'
+    cmake_opt: ''
+    comment: ''
+    copyright: Copyright (c) 2026 Vatan Zengin. Licensed under GPL v3. Read LISANCE.
+    description: https://github.com/vatanzngn/QO100DataModem
+    gen_cmake: 'On'
+    gen_linking: dynamic
+    generate_options: qt_gui
+    hier_block_src_path: '.:'
+    id: modem
+    max_nouts: '0'
+    output_language: python
+    placement: (0,0)
+    qt_qss_theme: ''
+    realtime_scheduling: ''
+    run: 'True'
+    run_command: '{python} -u {filename}'
+    run_options: prompt
+    sizing_mode: fixed
+    thread_safe_setters: ''
+    title: QO100Modem-NOTXSync
+    window_size: (1000,1000)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 24.0]
+    rotation: 0
+    state: enabled
+
+blocks:
+- name: af_gain
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: tabs@2
+    label: AF gain
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '0'
+    step: '0.01'
+    stop: '2'
+    value: '0.5'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 1356.0]
+    rotation: 0
+    state: enabled
+- name: agc_attack
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: tabs@2
+    label: AGC attack
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '0.0001'
+    step: '0.0001'
+    stop: '0.05'
+    value: '0.0008'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 220.0]
+    rotation: 0
+    state: enabled
+- name: agc_decay
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: tabs@2
+    label: AGC decay
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '0.00001'
+    step: '0.00001'
+    stop: '0.01'
+    value: '0.00006'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 348.0]
+    rotation: 0
+    state: enabled
+- name: agc_gain
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: tabs@2
+    label: AGC init gain
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '0.01'
+    step: '0.01'
+    stop: '5.0'
+    value: '1.0'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 476.0]
+    rotation: 0
+    state: enabled
+- name: agc_max_gain
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: tabs@2
+    label: AGC max gain
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '1'
+    step: '0.5'
+    stop: '100'
+    value: '3'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 1100.0]
+    rotation: 0
+    state: enabled
+- name: agc_ref
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: tabs@2
+    label: AGC ref
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '0.1'
+    step: '0.05'
+    stop: '1.0'
+    value: '0.5'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 1228.0]
+    rotation: 0
+    state: enabled
+- name: audio_dev_name
+  id: variable
+  parameters:
+    comment: ''
+    value: '"default"'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [504, 440.0]
+    rotation: 0
+    state: enabled
+- name: bt_expected_beacon_freq
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: tabs@0
+    label: Expected Freq
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: -samp_rate/2
+    step: '1'
+    stop: samp_rate/2
+    value: '0'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [160, 728.0]
+    rotation: 0
+    state: enabled
+- name: bt_filter_bw
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: tabs@0
+    label: Filter Bandwith
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '1000'
+    step: '100'
+    stop: '10000'
+    value: '1500'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [160, 216.0]
+    rotation: 0
+    state: enabled
+- name: bt_loop_bw
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: tabs@0
+    label: Costas Loop BW
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '0.0001'
+    step: '0.0001'
+    stop: '0.02'
+    value: '0.005'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [160, 344.0]
+    rotation: 0
+    state: enabled
+- name: fine_tune
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: tabs@2
+    label: Fine tune (Hz)
+    min_len: '300'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '-200'
+    step: '1'
+    stop: '200'
+    value: '0'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 1612.0]
+    rotation: 0
+    state: enabled
+- name: foff_data_ch1
+  id: variable_qtgui_entry
+  parameters:
+    comment: ''
+    entry_signal: editingFinished
+    gui_hint: tabs@3:[0,1,1,1]
+    label: T-Data Freq Offs
+    type: int
+    value: '-124800'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [504, 272.0]
+    rotation: 0
+    state: enabled
+- name: foff_ssb_ch1
+  id: variable_qtgui_entry
+  parameters:
+    comment: ''
+    entry_signal: editingFinished
+    gui_hint: tabs@2
+    label: T-SSB Freq Offs
+    type: int
+    value: '50000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [504, 352.0]
+    rotation: 0
+    state: enabled
+- name: lower_int
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: tabs@0
+    label: Waterfall Lower Color Intensity
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '-150'
+    step: '1'
+    stop: '-80'
+    value: '-112'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [160, 472.0]
+    rotation: 0
+    state: enabled
+- name: qpsk_chan_bw
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: tabs@3:[4,1,1,1]
+    label: QPSK Channel BW (Hz)
+    min_len: '250'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '500'
+    step: '100'
+    stop: '5000'
+    value: '2800'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [456, 1208.0]
+    rotation: 0
+    state: enabled
+- name: qpsk_rrc_alpha
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: tabs@3:[5,0,1,2]
+    label: QPSK RRC Alpha
+    min_len: '250'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '0.1'
+    step: '0.05'
+    stop: '0.9'
+    value: '0.35'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [496, 936.0]
+    rotation: 0
+    state: enabled
+- name: qpsk_symsync_bw
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: tabs@3:[3,0,1,1]
+    label: QPSK Symbol Sync BW
+    min_len: '250'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '0.001'
+    step: '0.001'
+    stop: '0.05'
+    value: '0.008'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [328, 936.0]
+    rotation: 0
+    state: enabled
+- name: qpsk_symsync_dev
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: tabs@3:[3,1,1,1]
+    label: QPSK Symbol Sync MaxDev
+    min_len: '250'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '0.001'
+    step: '0.001'
+    stop: '0.2'
+    value: '0.01'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [328, 1072.0]
+    rotation: 0
+    state: enabled
+- name: qpsk_ted_gain
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: tabs@3:[4,0,1,1]
+    label: QPSK TED Gain
+    min_len: '250'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '0.1'
+    step: '0.05'
+    stop: '2.0'
+    value: '0.5'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [328, 1208.0]
+    rotation: 0
+    state: enabled
+- name: qpsk_tx_gain
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: tabs@3:[2,0,1,2]
+    label: TX Gain
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '0'
+    step: '0.01'
+    stop: '1'
+    value: '0.5'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [160, 1120.0]
+    rotation: 0
+    state: enabled
+- name: qpskrx_costas_bw
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: tabs@3:[0,0,1,1]
+    label: QPSK Costas Loop BW
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '0.002'
+    step: '0.002'
+    stop: '0.15'
+    value: '0.02'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [336, 712.0]
+    rotation: 0
+    state: enabled
+- name: rx_gain
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: ''
+    label: RX Gain
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: int
+    start: '0'
+    step: '1'
+    stop: '65'
+    value: '8'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [504, 632.0]
+    rotation: 0
+    state: enabled
+- name: rx_lo
+  id: variable
+  parameters:
+    comment: ''
+    value: '739750000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [608, 832.0]
+    rotation: 0
+    state: enabled
+- name: rx_lo
+  id: variable
+  parameters:
+    comment: ''
+    value: '1200000000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [792, 96.0]
+    rotation: 0
+    state: disabled
+- name: rxsync_enable
+  id: variable_qtgui_check_box
+  parameters:
+    comment: ''
+    'false': '0'
+    gui_hint: tabs@0
+    label: RXSync Enable
+    'true': '1'
+    type: int
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [160, 864.0]
+    rotation: 0
+    state: enabled
+- name: samp_rate
+  id: variable
+  parameters:
+    comment: ''
+    value: '960000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [504, 216.0]
+    rotation: 0
+    state: enabled
+- name: sdr_ip
+  id: variable
+  parameters:
+    comment: ''
+    value: '"ip:192.168.1.42"'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [504, 768.0]
+    rotation: 0
+    state: enabled
+- name: sdr_ip
+  id: variable
+  parameters:
+    comment: ''
+    value: '"ip:192.168.2.1"'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [712, 32.0]
+    rotation: 0
+    state: disabled
+- name: sql_alpha
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: tabs@2
+    label: Squelch alpha
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '0.0001'
+    step: '0.0001'
+    stop: '0.1'
+    value: '0.001'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 1484.0]
+    rotation: 0
+    state: enabled
+- name: sql_ramp
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: tabs@2
+    label: Squelch ramp
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: int
+    start: '0'
+    step: '100'
+    stop: '12000'
+    value: '4800'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 732.0]
+    rotation: 0
+    state: enabled
+- name: sql_thresh
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: tabs@2
+    label: Squelch (dB)
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '-100'
+    step: '1'
+    stop: '0'
+    value: '-49'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 604.0]
+    rotation: 0
+    state: enabled
+- name: ssb_enable
+  id: variable_qtgui_check_box
+  parameters:
+    comment: ''
+    'false': '0'
+    gui_hint: tabs@2
+    label: SSB Enable
+    'true': '1'
+    type: int
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 1740.0]
+    rotation: 0
+    state: enabled
+- name: ssb_tx_enable
+  id: variable_qtgui_check_box
+  parameters:
+    comment: ''
+    'false': '0'
+    gui_hint: tabs@2
+    label: SSB PTT
+    'true': '1'
+    type: int
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 988.0]
+    rotation: 0
+    state: enabled
+- name: ssb_tx_gain
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: tabs@2
+    label: TX gain
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '0'
+    step: '0.01'
+    stop: '1'
+    value: '0.8'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 860.0]
+    rotation: 0
+    state: enabled
+- name: tx_att
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: ''
+    label: TX Attenuation !
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: int
+    start: '0'
+    step: '1'
+    stop: '80'
+    value: '16'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [504, 504.0]
+    rotation: 0
+    state: enabled
+- name: tx_lo
+  id: variable
+  parameters:
+    comment: ''
+    value: '1200000000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [712, 96.0]
+    rotation: 0
+    state: disabled
+- name: tx_lo
+  id: variable
+  parameters:
+    comment: ''
+    value: '2400250000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [504, 832.0]
+    rotation: 0
+    state: enabled
+- name: txsync_caltone_freq
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: tabs@1
+    label: Caltone Freq
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '-400000'
+    step: '1'
+    stop: '400000'
+    value: '35000'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [336, 216.0]
+    rotation: 0
+    state: enabled
+- name: txsync_debtone_freq
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: tabs@1
+    label: TX Sync Debug Tone Offset
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '-4000'
+    step: '1'
+    stop: '4000'
+    value: '0'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [336, 584.0]
+    rotation: 0
+    state: enabled
+- name: txsync_enable
+  id: variable_qtgui_check_box
+  parameters:
+    comment: ''
+    'false': '0'
+    gui_hint: tabs@1
+    label: TX Sync Tone Enable
+    'true': '1'
+    type: int
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [336, 336.0]
+    rotation: 0
+    state: enabled
+- name: txsync_txlo_drift
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: ''
+    label: Clock Drift Amount
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '-1500'
+    step: '1'
+    stop: '1500'
+    value: '0'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [336, 456.0]
+    rotation: 0
+    state: enabled
+- name: upper_int
+  id: variable_qtgui_range
+  parameters:
+    comment: ''
+    gui_hint: tabs@0
+    label: Waterfall Upper Color Intensity
+    min_len: '200'
+    orient: QtCore.Qt.Horizontal
+    rangeType: float
+    start: '-80'
+    step: '1'
+    stop: '40'
+    value: '-70'
+    widget: counter_slider
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [160, 600.0]
+    rotation: 0
+    state: enabled
+- name: QO100_QPSKDataModem_RX_nofec_0
+  id: QO100_QPSKDataModem_RX_nofec
+  parameters:
+    affinity: ''
+    alias: ''
+    chan_bw: '1500'
+    comment: ''
+    costas_bw: qpskrx_costas_bw
+    freq_offset: foff_data_ch1
+    logport: '5002'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    port1: '5003'
+    port2: '5004'
+    port3: '5005'
+    port4: '5006'
+    rrc_alpha: '0.35'
+    samp_rate: '960000'
+    symsync_bw: '0.008'
+    symsync_dev: '0.01'
+    ted_gain: '0.5'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1528, 748.0]
+    rotation: 0
+    state: enabled
+- name: QO100_QPSKDataModem_TX_nofec_0
+  id: QO100_QPSKDataModem_TX_nofec
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    freq_offs: foff_data_ch1
+    gain: qpsk_tx_gain
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    port: '5001'
+    samp_rate: '960000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1080, 360.0]
+    rotation: 0
+    state: enabled
+- name: QO100_SSBModem_RX_0
+  id: QO100_SSBModem_RX
+  parameters:
+    af_gain: af_gain
+    affinity: ''
+    agc_attack: agc_attack
+    agc_decay: agc_decay
+    agc_gain: agc_gain
+    agc_max_gain: agc_max_gain
+    agc_ref: agc_ref
+    alias: ''
+    comment: ''
+    dev_name: audio_dev_name
+    enable: ssb_enable
+    fine_tune: fine_tune
+    freq_offset: foff_ssb_ch1
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samp_rate: samp_rate
+    sql_alpha: sql_alpha
+    sql_ramp: sql_ramp
+    sql_thresh: sql_thresh
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1528, 1008.0]
+    rotation: 0
+    state: enabled
+- name: QO100_SSBModem_TX_0
+  id: QO100_SSBModem_TX
+  parameters:
+    affinity: ''
+    agc_attack: agc_attack
+    agc_decay: agc_decay
+    agc_gain: agc_gain
+    agc_max_gain: agc_max_gain
+    agc_ref: agc_ref
+    alias: ''
+    comment: ''
+    dev_name: audio_dev_name
+    freq_offset: foff_ssb_ch1
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samp_rate: samp_rate
+    tx_gain: ssb_tx_gain
+    txenable: ssb_tx_enable
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1032, 460.0]
+    rotation: 0
+    state: enabled
+- name: QO100_TXSyncCal_RX_0
+  id: QO100_TXSyncCal_RX
+  parameters:
+    affinity: ''
+    alias: ''
+    cal_tone: txsync_caltone_freq
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1528, 672.0]
+    rotation: 0
+    state: enabled
+- name: QO100_TXSyncCal_TX_0
+  id: QO100_TXSyncCal_TX
+  parameters:
+    affinity: ''
+    alias: ''
+    cal_tone: txsync_caltone_freq
+    comment: ''
+    debug_tone_offset: txsync_debtone_freq
+    enable: txsync_enable
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1096, 272.0]
+    rotation: 0
+    state: enabled
+- name: RXSync_0
+  id: RXSync
+  parameters:
+    affinity: ''
+    alias: ''
+    beacontrack_bw: bt_filter_bw
+    comment: ''
+    enable: rxsync_enable
+    expected_beacon_freq: bt_expected_beacon_freq
+    loop_bw: bt_loop_bw
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samp_rate: samp_rate
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1192, 968.0]
+    rotation: 0
+    state: enabled
+- name: analog_sig_source_x_0
+  id: analog_sig_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    amp: '1'
+    comment: ''
+    freq: txsync_txlo_drift*(-1)
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    offset: '0'
+    phase: '0'
+    samp_rate: samp_rate
+    showports: 'False'
+    type: complex
+    waveform: analog.GR_COS_WAVE
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1376.0, 152]
+    rotation: 270
+    state: enabled
+- name: blocks_add_xx_0
+  id: blocks_add_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_inputs: '3'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1368, 360.0]
+    rotation: 0
+    state: enabled
+- name: blocks_file_sink_0
+  id: blocks_file_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    append: 'False'
+    comment: ''
+    file: /home/vatanz/Desktop/recaksamfinal
+    type: complex
+    unbuffered: 'False'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1024.0, 1336]
+    rotation: 270
+    state: disabled
+- name: blocks_file_source_0
+  id: blocks_file_source
+  parameters:
+    affinity: ''
+    alias: ''
+    begin_tag: pmt.PMT_NIL
+    comment: ''
+    file: /run/media/vatanz/6AAA-F9E0/QO100/record/grcrecord_sep17_01.30
+    length: '0'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    offset: '0'
+    repeat: 'True'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1184.0, 1376]
+    rotation: 90
+    state: disabled
+- name: blocks_multiply_xx_0_0
+  id: blocks_multiply_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_inputs: '2'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1496, 360.0]
+    rotation: 0
+    state: enabled
+- name: blocks_throttle2_0
+  id: blocks_throttle2
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    ignoretag: 'True'
+    limit: auto
+    maximum: '0.1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samples_per_second: samp_rate
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1120.0, 1248]
+    rotation: 90
+    state: disabled
+- name: iio_pluto_sink_0
+  id: iio_pluto_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    attenuation1: tx_att
+    bandwidth: '1500000'
+    buffer_size: '32768'
+    comment: ''
+    cyclic: 'False'
+    filter: ''
+    filter_source: '''Auto'''
+    fpass: '0'
+    frequency: tx_lo
+    fstop: '0'
+    len_tag_key: ''
+    samplerate: samp_rate
+    type: fc32
+    uri: sdr_ip
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1608, 308.0]
+    rotation: 0
+    state: enabled
+- name: iio_pluto_source_0
+  id: iio_pluto_source
+  parameters:
+    affinity: ''
+    alias: ''
+    bandwidth: '20000000'
+    bbdc: 'True'
+    buffer_size: '32768'
+    comment: ''
+    filter: ''
+    filter_source: '''Auto'''
+    fpass: '0'
+    frequency: rx_lo
+    fstop: '0'
+    gain1: '''manual'''
+    len_tag_key: packet_len
+    manual_gain1: rx_gain
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    quadrature: 'True'
+    rfdc: 'True'
+    samplerate: samp_rate
+    type: fc32
+    uri: sdr_ip
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [944, 916.0]
+    rotation: 0
+    state: enabled
+- name: import_0
+  id: import
+  parameters:
+    alias: ''
+    comment: ''
+    imports: import time
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [200, 24.0]
+    rotation: 0
+    state: enabled
+- name: note_0
+  id: note
+  parameters:
+    alias: ''
+    comment: ''
+    note: SDR Configurations
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [504, 160.0]
+    rotation: 0
+    state: enabled
+- name: note_0_0
+  id: note
+  parameters:
+    alias: ''
+    comment: ''
+    note: SSB Parameters
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [24, 164.0]
+    rotation: 0
+    state: enabled
+- name: note_0_0_0
+  id: note
+  parameters:
+    alias: ''
+    comment: ''
+    note: RX Sync Params
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [160, 160.0]
+    rotation: 0
+    state: enabled
+- name: note_0_0_0_0
+  id: note
+  parameters:
+    alias: ''
+    comment: ''
+    note: TX Sync Params
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [336, 160.0]
+    rotation: 0
+    state: enabled
+- name: note_1
+  id: note
+  parameters:
+    alias: ''
+    comment: ''
+    note: 'DAT MIN : -170.000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [336, 32.0]
+    rotation: 0
+    state: enabled
+- name: note_1_0
+  id: note
+  parameters:
+    alias: ''
+    comment: ''
+    note: 'DAT MAX : -100.000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [488, 32.0]
+    rotation: 0
+    state: enabled
+- name: note_1_0_0
+  id: note
+  parameters:
+    alias: ''
+    comment: ''
+    note: 'TR SSB : 27.000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [336, 96.0]
+    rotation: 0
+    state: enabled
+- name: note_1_1
+  id: note
+  parameters:
+    alias: ''
+    comment: ''
+    note: 'Center Freq : 10.489.750.000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [472, 96.0]
+    rotation: 0
+    state: enabled
+- name: qtgui_const_sink_x_1
+  id: qtgui_const_sink_x
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha1: '1.0'
+    alpha10: '1.0'
+    alpha2: '1.0'
+    alpha3: '1.0'
+    alpha4: '1.0'
+    alpha5: '1.0'
+    alpha6: '1.0'
+    alpha7: '1.0'
+    alpha8: '1.0'
+    alpha9: '1.0'
+    autoscale: 'False'
+    axislabels: 'True'
+    color1: '"blue"'
+    color10: '"dark blue"'
+    color2: '"red"'
+    color3: '"green"'
+    color4: '"black"'
+    color5: '"cyan"'
+    color6: '"magenta"'
+    color7: '"yellow"'
+    color8: '"dark red"'
+    color9: '"dark green"'
+    comment: ''
+    grid: 'False'
+    gui_hint: tabs@3:[1,0,1,1]
+    label1: ''
+    label10: ''
+    label2: ''
+    label3: ''
+    label4: ''
+    label5: ''
+    label6: ''
+    label7: ''
+    label8: ''
+    label9: ''
+    legend: 'False'
+    marker1: '0'
+    marker10: '0'
+    marker2: '0'
+    marker3: '0'
+    marker4: '0'
+    marker5: '0'
+    marker6: '0'
+    marker7: '0'
+    marker8: '0'
+    marker9: '0'
+    name: '"Modem 1"'
+    nconnections: '1'
+    size: '512'
+    style1: '0'
+    style10: '0'
+    style2: '0'
+    style3: '0'
+    style4: '0'
+    style5: '0'
+    style6: '0'
+    style7: '0'
+    style8: '0'
+    style9: '0'
+    tr_chan: '0'
+    tr_level: '0.0'
+    tr_mode: qtgui.TRIG_MODE_FREE
+    tr_slope: qtgui.TRIG_SLOPE_POS
+    tr_tag: '""'
+    type: complex
+    update_time: '0.5'
+    width1: '1'
+    width10: '1'
+    width2: '1'
+    width3: '1'
+    width4: '1'
+    width5: '1'
+    width6: '1'
+    width7: '1'
+    width8: '1'
+    width9: '1'
+    xmax: '1'
+    xmin: '-1'
+    ymax: '1'
+    ymin: '-1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1816, 816.0]
+    rotation: 0
+    state: enabled
+- name: qtgui_freq_sink_x_0
+  id: qtgui_freq_sink_x
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha1: '1.0'
+    alpha10: '1.0'
+    alpha2: '1.0'
+    alpha3: '1.0'
+    alpha4: '1.0'
+    alpha5: '1.0'
+    alpha6: '1.0'
+    alpha7: '1.0'
+    alpha8: '1.0'
+    alpha9: '1.0'
+    autoscale: 'False'
+    average: '0.2'
+    axislabels: 'True'
+    bw: '8000'
+    color1: '"blue"'
+    color10: '"dark blue"'
+    color2: '"red"'
+    color3: '"green"'
+    color4: '"black"'
+    color5: '"cyan"'
+    color6: '"magenta"'
+    color7: '"yellow"'
+    color8: '"dark red"'
+    color9: '"dark green"'
+    comment: ''
+    ctrlpanel: 'False'
+    fc: '0'
+    fftsize: '4096'
+    freqhalf: 'True'
+    grid: 'True'
+    gui_hint: tabs@1
+    label: Relative Gain
+    label1: ''
+    label10: ''''''
+    label2: ''''''
+    label3: ''''''
+    label4: ''''''
+    label5: ''''''
+    label6: ''''''
+    label7: ''''''
+    label8: ''''''
+    label9: ''''''
+    legend: 'False'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    name: '"Measurement Window"'
+    nconnections: '1'
+    norm_window: 'False'
+    showports: 'False'
+    tr_chan: '0'
+    tr_level: '0.0'
+    tr_mode: qtgui.TRIG_MODE_FREE
+    tr_tag: '""'
+    type: complex
+    units: dB
+    update_time: '0.10'
+    width1: '1'
+    width10: '1'
+    width2: '1'
+    width3: '1'
+    width4: '1'
+    width5: '1'
+    width6: '1'
+    width7: '1'
+    width8: '1'
+    width9: '1'
+    wintype: window.WIN_BLACKMAN_hARRIS
+    ymax: '10'
+    ymin: '-140'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1816, 712.0]
+    rotation: 0
+    state: enabled
+- name: qtgui_number_sink_0
+  id: qtgui_number_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    autoscale: 'False'
+    avg: '0'
+    color1: ("black", "black")
+    color10: ("black", "black")
+    color2: ("black", "black")
+    color3: ("black", "black")
+    color4: ("black", "black")
+    color5: ("black", "black")
+    color6: ("black", "black")
+    color7: ("black", "black")
+    color8: ("black", "black")
+    color9: ("black", "black")
+    comment: ''
+    factor1: '1'
+    factor10: '1'
+    factor2: '1'
+    factor3: '1'
+    factor4: '1'
+    factor5: '1'
+    factor6: '1'
+    factor7: '1'
+    factor8: '1'
+    factor9: '1'
+    graph_type: qtgui.NUM_GRAPH_NONE
+    gui_hint: tabs@1
+    label1: TX Freq Error
+    label10: ''
+    label2: ''
+    label3: ''
+    label4: ''
+    label5: ''
+    label6: ''
+    label7: ''
+    label8: ''
+    label9: ''
+    max: '+4000'
+    min: '-4000'
+    name: '"TX Freq Error"'
+    nconnections: '1'
+    type: float
+    unit1: Hz
+    unit10: ''
+    unit2: ''
+    unit3: ''
+    unit4: ''
+    unit5: ''
+    unit6: ''
+    unit7: ''
+    unit8: ''
+    unit9: ''
+    update_time: '0.10'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1816, 592.0]
+    rotation: 0
+    state: enabled
+- name: qtgui_waterfall_sink_x_0_0
+  id: qtgui_waterfall_sink_x
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha1: '1.0'
+    alpha10: '1.0'
+    alpha2: '1.0'
+    alpha3: '1.0'
+    alpha4: '1.0'
+    alpha5: '1.0'
+    alpha6: '1.0'
+    alpha7: '1.0'
+    alpha8: '1.0'
+    alpha9: '1.0'
+    axislabels: 'True'
+    bw: '24000'
+    color1: '0'
+    color10: '0'
+    color2: '0'
+    color3: '0'
+    color4: '0'
+    color5: '0'
+    color6: '0'
+    color7: '0'
+    color8: '0'
+    color9: '0'
+    comment: ''
+    fc: '0'
+    fftsize: '512'
+    freqhalf: 'True'
+    grid: 'False'
+    gui_hint: tabs@2:[1,1,1,1]
+    int_max: '10'
+    int_min: '-140'
+    label1: ''
+    label10: ''
+    label2: ''
+    label3: ''
+    label4: ''
+    label5: ''
+    label6: ''
+    label7: ''
+    label8: ''
+    label9: ''
+    legend: 'True'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    name: SSB Audio RX
+    nconnections: '1'
+    showports: 'False'
+    type: complex
+    update_time: '0.05'
+    wintype: window.WIN_BLACKMAN_hARRIS
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1776, 1096.0]
+    rotation: 0
+    state: enabled
+- name: qtgui_waterfall_sink_x_0_0_0
+  id: qtgui_waterfall_sink_x
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha1: '1.0'
+    alpha10: '1.0'
+    alpha2: '1.0'
+    alpha3: '1.0'
+    alpha4: '1.0'
+    alpha5: '1.0'
+    alpha6: '1.0'
+    alpha7: '1.0'
+    alpha8: '1.0'
+    alpha9: '1.0'
+    axislabels: 'True'
+    bw: '24000'
+    color1: '0'
+    color10: '0'
+    color2: '0'
+    color3: '0'
+    color4: '0'
+    color5: '0'
+    color6: '0'
+    color7: '0'
+    color8: '0'
+    color9: '0'
+    comment: ''
+    fc: '0'
+    fftsize: '512'
+    freqhalf: 'True'
+    grid: 'False'
+    gui_hint: tabs@2:[1,0,1,1]
+    int_max: '10'
+    int_min: '-140'
+    label1: ''
+    label10: ''
+    label2: ''
+    label3: ''
+    label4: ''
+    label5: ''
+    label6: ''
+    label7: ''
+    label8: ''
+    label9: ''
+    legend: 'True'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    name: SSB Audio TX
+    nconnections: '1'
+    showports: 'False'
+    type: float
+    update_time: '0.05'
+    wintype: window.WIN_BLACKMAN_hARRIS
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1320, 528.0]
+    rotation: 0
+    state: enabled
+- name: qtgui_waterfall_sink_x_0_1
+  id: qtgui_waterfall_sink_x
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha1: '1.0'
+    alpha10: '1.0'
+    alpha2: '1.0'
+    alpha3: '1.0'
+    alpha4: '1.0'
+    alpha5: '1.0'
+    alpha6: '1.0'
+    alpha7: '1.0'
+    alpha8: '1.0'
+    alpha9: '1.0'
+    axislabels: 'False'
+    bw: samp_rate
+    color1: '0'
+    color10: '0'
+    color2: '0'
+    color3: '0'
+    color4: '0'
+    color5: '0'
+    color6: '0'
+    color7: '0'
+    color8: '0'
+    color9: '0'
+    comment: ''
+    fc: '0'
+    fftsize: '8192'
+    freqhalf: 'True'
+    grid: 'False'
+    gui_hint: (2,0,1,2)
+    int_max: upper_int
+    int_min: lower_int
+    label1: ''
+    label10: ''
+    label2: ''
+    label3: ''
+    label4: ''
+    label5: ''
+    label6: ''
+    label7: ''
+    label8: ''
+    label9: ''
+    legend: 'False'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    name: ''
+    nconnections: '1'
+    showports: 'False'
+    type: complex
+    update_time: '0.1'
+    wintype: window.WIN_BLACKMAN_hARRIS
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1360.0, 672]
+    rotation: 90
+    state: enabled
+- name: qtgui_waterfall_sink_x_1_0_0_1_0
+  id: qtgui_waterfall_sink_x
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha1: '1.0'
+    alpha10: '1.0'
+    alpha2: '1.0'
+    alpha3: '1.0'
+    alpha4: '1.0'
+    alpha5: '1.0'
+    alpha6: '1.0'
+    alpha7: '1.0'
+    alpha8: '1.0'
+    alpha9: '1.0'
+    axislabels: 'True'
+    bw: int(samp_rate/10)
+    color1: '0'
+    color10: '0'
+    color2: '0'
+    color3: '0'
+    color4: '0'
+    color5: '0'
+    color6: '0'
+    color7: '0'
+    color8: '0'
+    color9: '0'
+    comment: ''
+    fc: '0'
+    fftsize: '1024'
+    freqhalf: 'True'
+    grid: 'True'
+    gui_hint: tabs@0:(3,0,1,1)
+    int_max: upper_int
+    int_min: lower_int
+    label1: costas
+    label10: ''
+    label2: ''
+    label3: ''
+    label4: ''
+    label5: ''
+    label6: ''
+    label7: ''
+    label8: ''
+    label9: ''
+    legend: 'False'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    name: '"Filtered Signal"'
+    nconnections: '1'
+    showports: 'False'
+    type: complex
+    update_time: '0.2'
+    wintype: window.WIN_BLACKMAN_hARRIS
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1312.0, 1200]
+    rotation: 270
+    state: enabled
+- name: qtgui_waterfall_sink_x_1_0_0_1_0_0
+  id: qtgui_waterfall_sink_x
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha1: '1.0'
+    alpha10: '1.0'
+    alpha2: '1.0'
+    alpha3: '1.0'
+    alpha4: '1.0'
+    alpha5: '1.0'
+    alpha6: '1.0'
+    alpha7: '1.0'
+    alpha8: '1.0'
+    alpha9: '1.0'
+    axislabels: 'True'
+    bw: samp_rate/10
+    color1: '0'
+    color10: '0'
+    color2: '0'
+    color3: '0'
+    color4: '0'
+    color5: '0'
+    color6: '0'
+    color7: '0'
+    color8: '0'
+    color9: '0'
+    comment: ''
+    fc: '0'
+    fftsize: '1024'
+    freqhalf: 'True'
+    grid: 'True'
+    gui_hint: tabs@0:(3,1,1,1)
+    int_max: upper_int
+    int_min: lower_int
+    label1: costas
+    label10: ''
+    label2: ''
+    label3: ''
+    label4: ''
+    label5: ''
+    label6: ''
+    label7: ''
+    label8: ''
+    label9: ''
+    legend: 'True'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    name: '"Costas Output"'
+    nconnections: '1'
+    showports: 'False'
+    type: complex
+    update_time: '0.2'
+    wintype: window.WIN_BLACKMAN_hARRIS
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1416.0, 1200]
+    rotation: 270
+    state: enabled
+- name: qtgui_waterfall_sink_x_1_0_0_1_0_1
+  id: qtgui_waterfall_sink_x
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha1: '1.0'
+    alpha10: '1.0'
+    alpha2: '1.0'
+    alpha3: '1.0'
+    alpha4: '1.0'
+    alpha5: '1.0'
+    alpha6: '1.0'
+    alpha7: '1.0'
+    alpha8: '1.0'
+    alpha9: '1.0'
+    axislabels: 'True'
+    bw: '8000'
+    color1: '0'
+    color10: '0'
+    color2: '0'
+    color3: '0'
+    color4: '0'
+    color5: '0'
+    color6: '0'
+    color7: '0'
+    color8: '0'
+    color9: '0'
+    comment: ''
+    fc: '0'
+    fftsize: '1024'
+    freqhalf: 'True'
+    grid: 'True'
+    gui_hint: tabs@3:[1,1,1,1]
+    int_max: upper_int
+    int_min: lower_int
+    label1: costas
+    label10: ''
+    label2: ''
+    label3: ''
+    label4: ''
+    label5: ''
+    label6: ''
+    label7: ''
+    label8: ''
+    label9: ''
+    legend: 'False'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    name: ''
+    nconnections: '1'
+    showports: 'False'
+    type: complex
+    update_time: '0.2'
+    wintype: window.WIN_BLACKMAN_hARRIS
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1816, 896.0]
+    rotation: 0
+    state: enabled
+- name: tabs
+  id: qtgui_tab_widget
+  parameters:
+    alias: ''
+    comment: ''
+    gui_hint: ''
+    label0: RX Sync
+    label1: TX Sync
+    label10: Tab 10
+    label11: Tab 11
+    label12: Tab 12
+    label13: Tab 13
+    label14: Tab 14
+    label15: Tab 15
+    label16: Tab 16
+    label17: Tab 17
+    label18: Tab 18
+    label19: Tab 19
+    label2: SSB Control
+    label3: QPSK Flow
+    label4: DEBUG(QPSK)
+    label5: Tab 5
+    label6: Tab 6
+    label7: Tab 7
+    label8: Tab 8
+    label9: Tab 9
+    num_tabs: '4'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [160, 984.0]
+    rotation: 0
+    state: enabled
+
+connections:
+- [QO100_QPSKDataModem_RX_nofec_0, '0', qtgui_const_sink_x_1, '0']
+- [QO100_QPSKDataModem_RX_nofec_0, '1', qtgui_waterfall_sink_x_1_0_0_1_0_1, '0']
+- [QO100_QPSKDataModem_TX_nofec_0, '0', blocks_add_xx_0, '1']
+- [QO100_SSBModem_RX_0, '0', qtgui_waterfall_sink_x_0_0, '0']
+- [QO100_SSBModem_TX_0, '0', blocks_add_xx_0, '2']
+- [QO100_SSBModem_TX_0, '1', qtgui_waterfall_sink_x_0_0_0, '0']
+- [QO100_TXSyncCal_RX_0, '0', qtgui_number_sink_0, '0']
+- [QO100_TXSyncCal_RX_0, '1', qtgui_freq_sink_x_0, '0']
+- [QO100_TXSyncCal_TX_0, '0', blocks_add_xx_0, '0']
+- [RXSync_0, '0', QO100_QPSKDataModem_RX_nofec_0, '0']
+- [RXSync_0, '0', QO100_SSBModem_RX_0, '0']
+- [RXSync_0, '0', QO100_TXSyncCal_RX_0, '0']
+- [RXSync_0, '0', qtgui_waterfall_sink_x_0_1, '0']
+- [RXSync_0, '1', qtgui_waterfall_sink_x_1_0_0_1_0_0, '0']
+- [RXSync_0, '2', qtgui_waterfall_sink_x_1_0_0_1_0, '0']
+- [analog_sig_source_x_0, '0', blocks_multiply_xx_0_0, '0']
+- [blocks_add_xx_0, '0', blocks_multiply_xx_0_0, '1']
+- [blocks_file_source_0, '0', blocks_throttle2_0, '0']
+- [blocks_multiply_xx_0_0, '0', iio_pluto_sink_0, '0']
+- [blocks_throttle2_0, '0', RXSync_0, '0']
+- [iio_pluto_source_0, '0', RXSync_0, '0']
+- [iio_pluto_source_0, '0', blocks_file_sink_0, '0']
+
+metadata:
+  file_format: 1
+  grc_version: 3.10.12.0

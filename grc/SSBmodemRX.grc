@@ -1,0 +1,536 @@
+options:
+  parameters:
+    author: Vatan Zengin TA7WRS
+    catch_exceptions: 'True'
+    category: '[QO100-Communication Satellite]'
+    cmake_opt: ''
+    comment: ''
+    copyright: Copyright (c) 2026 Vatan Zengin. Licensed under GPL v3.
+    description: ''
+    gen_cmake: 'On'
+    gen_linking: dynamic
+    generate_options: hb
+    hier_block_src_path: '.:'
+    id: QO100_SSBModem_RX
+    max_nouts: '0'
+    output_language: python
+    placement: (0,0)
+    qt_qss_theme: ''
+    realtime_scheduling: ''
+    run: 'True'
+    run_command: '{python} -u {filename}'
+    run_options: prompt
+    sizing_mode: fixed
+    thread_safe_setters: ''
+    title: SSB Receiver for QO100 Satellite
+    window_size: (1000,1000)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 8]
+    rotation: 0
+    state: enabled
+
+blocks:
+- name: bb_samp_rate
+  id: variable
+  parameters:
+    comment: ''
+    value: '24000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [8, 144.0]
+    rotation: 0
+    state: enabled
+- name: af_gain
+  id: parameter
+  parameters:
+    alias: ''
+    comment: AF/speaker volume
+    hide: none
+    label: AF gain
+    short_id: ''
+    type: eng_float
+    value: '0.5'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1064, 8.0]
+    rotation: 0
+    state: enabled
+- name: agc_attack
+  id: parameter
+  parameters:
+    alias: ''
+    comment: AGC attack rate
+    hide: none
+    label: AGC attack
+    short_id: ''
+    type: eng_float
+    value: '0.0008'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [528, 8.0]
+    rotation: 0
+    state: enabled
+- name: agc_decay
+  id: parameter
+  parameters:
+    alias: ''
+    comment: AGC decay rate
+    hide: none
+    label: AGC decay
+    short_id: ''
+    type: eng_float
+    value: '0.00006'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [632, 8.0]
+    rotation: 0
+    state: enabled
+- name: agc_gain
+  id: parameter
+  parameters:
+    alias: ''
+    comment: AGC initial gain
+    hide: none
+    label: AGC init gain
+    short_id: ''
+    type: eng_float
+    value: '1.0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [944, 8.0]
+    rotation: 0
+    state: enabled
+- name: agc_max_gain
+  id: parameter
+  parameters:
+    alias: ''
+    comment: AGC max gain ceiling
+    hide: none
+    label: AGC max gain
+    short_id: ''
+    type: eng_float
+    value: '3'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [736, 8.0]
+    rotation: 0
+    state: enabled
+- name: agc_ref
+  id: parameter
+  parameters:
+    alias: ''
+    comment: AGC reference level
+    hide: none
+    label: AGC ref
+    short_id: ''
+    type: eng_float
+    value: '0.5'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [856, 8.0]
+    rotation: 0
+    state: enabled
+- name: analog_agc2_xx_0_0
+  id: analog_agc2_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    attack_rate: agc_attack
+    comment: RX baseband AGC (complex)
+    decay_rate: agc_decay
+    gain: agc_gain
+    max_gain: agc_max_gain
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    reference: agc_ref
+    type: complex
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [848, 200.0]
+    rotation: 0
+    state: enabled
+- name: analog_pwr_squelch_xx_0
+  id: analog_pwr_squelch_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    alpha: sql_alpha
+    comment: ''
+    gate: 'True'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    ramp: sql_ramp
+    threshold: sql_thresh
+    type: float
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1160, 208.0]
+    rotation: 0
+    state: enabled
+- name: analog_sig_source_x_0_0
+  id: analog_sig_source_x
+  parameters:
+    affinity: ''
+    alias: ''
+    amp: '1'
+    comment: ''
+    freq: -(fine_tune + freq_offset)
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    offset: '0'
+    phase: '0'
+    samp_rate: samp_rate
+    showports: 'False'
+    type: complex
+    waveform: analog.GR_COS_WAVE
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [152, 208.0]
+    rotation: 0
+    state: enabled
+- name: audio_sink_0
+  id: audio_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    device_name: dev_name
+    num_inputs: '1'
+    ok_to_block: 'True'
+    samp_rate: bb_samp_rate
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1624, 224.0]
+    rotation: 0
+    state: enabled
+- name: band_pass_filter_1
+  id: band_pass_filter
+  parameters:
+    affinity: ''
+    alias: ''
+    beta: '6.76'
+    comment: RX baseband BPF
+    decim: '1'
+    gain: '1'
+    high_cutoff_freq: '2700'
+    interp: '1'
+    low_cutoff_freq: '200'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samp_rate: bb_samp_rate
+    type: fir_filter_ccf
+    width: '200'
+    win: window.WIN_HAMMING
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [656, 180.0]
+    rotation: 0
+    state: enabled
+- name: blocks_complex_to_real_0
+  id: blocks_complex_to_real
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1016, 240.0]
+    rotation: 0
+    state: enabled
+- name: blocks_multiply_const_vxx_0
+  id: blocks_multiply_const_vxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    const: enable
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: float
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1472, 232.0]
+    rotation: 0
+    state: enabled
+- name: blocks_multiply_const_vxx_0_0
+  id: blocks_multiply_const_vxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: AF volume
+    const: af_gain
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    type: float
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1320, 232.0]
+    rotation: 0
+    state: enabled
+- name: blocks_multiply_xx_0_0
+  id: blocks_multiply_xx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_inputs: '2'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [360, 224.0]
+    rotation: 0
+    state: enabled
+- name: dev_name
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: Device Name
+    short_id: ''
+    type: ''
+    value: '''pulse'''
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [408, 8.0]
+    rotation: 0
+    state: enabled
+- name: enable
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: Enable(1/0)
+    short_id: ''
+    type: intx
+    value: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [296, 8.0]
+    rotation: 0
+    state: enabled
+- name: fine_tune
+  id: parameter
+  parameters:
+    alias: ''
+    comment: RX fine tune (Hz, 1Hz step)
+    hide: none
+    label: Fine tune (Hz)
+    short_id: ''
+    type: eng_float
+    value: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1504, 8.0]
+    rotation: 0
+    state: enabled
+- name: freq_offset
+  id: parameter
+  parameters:
+    alias: ''
+    comment: TX RF offset (loopback)
+    hide: none
+    label: Freq offset (Hz)
+    short_id: ''
+    type: eng_float
+    value: '1500'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1624, 8.0]
+    rotation: 0
+    state: enabled
+- name: pad_sink_0
+  id: pad_sink
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    label: view
+    num_streams: '1'
+    optional: 'False'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1064, 320.0]
+    rotation: 0
+    state: enabled
+- name: pad_source_0
+  id: pad_source
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    label: in
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_streams: '1'
+    optional: 'False'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [184, 144.0]
+    rotation: 0
+    state: enabled
+- name: rational_resampler_xxx_1
+  id: rational_resampler_xxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    decim: int(samp_rate/bb_samp_rate)
+    fbw: '0.4'
+    interp: '1'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    taps: '[]'
+    type: ccc
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [480, 208.0]
+    rotation: 0
+    state: enabled
+- name: samp_rate
+  id: parameter
+  parameters:
+    alias: ''
+    comment: ''
+    hide: none
+    label: Sampling Rate
+    short_id: ''
+    type: intx
+    value: '960000'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [176, 8.0]
+    rotation: 0
+    state: enabled
+- name: sql_alpha
+  id: parameter
+  parameters:
+    alias: ''
+    comment: Squelch power averaging alpha
+    hide: none
+    label: Squelch alpha
+    short_id: ''
+    type: eng_float
+    value: '0.001'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1264, 8.0]
+    rotation: 0
+    state: enabled
+- name: sql_ramp
+  id: parameter
+  parameters:
+    alias: ''
+    comment: Squelch ramp samples (~ms @ 24k)
+    hide: none
+    label: Squelch ramp
+    short_id: ''
+    type: intx
+    value: '4800'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1384, 8.0]
+    rotation: 0
+    state: enabled
+- name: sql_thresh
+  id: parameter
+  parameters:
+    alias: ''
+    comment: Squelch threshold dB
+    hide: none
+    label: Squelch (dB)
+    short_id: ''
+    type: eng_float
+    value: '-49'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1152, 8.0]
+    rotation: 0
+    state: enabled
+
+connections:
+- [analog_agc2_xx_0_0, '0', blocks_complex_to_real_0, '0']
+- [analog_agc2_xx_0_0, '0', pad_sink_0, '0']
+- [analog_pwr_squelch_xx_0, '0', blocks_multiply_const_vxx_0_0, '0']
+- [analog_sig_source_x_0_0, '0', blocks_multiply_xx_0_0, '1']
+- [band_pass_filter_1, '0', analog_agc2_xx_0_0, '0']
+- [blocks_complex_to_real_0, '0', analog_pwr_squelch_xx_0, '0']
+- [blocks_multiply_const_vxx_0, '0', audio_sink_0, '0']
+- [blocks_multiply_const_vxx_0_0, '0', blocks_multiply_const_vxx_0, '0']
+- [blocks_multiply_xx_0_0, '0', rational_resampler_xxx_1, '0']
+- [pad_source_0, '0', blocks_multiply_xx_0_0, '0']
+- [rational_resampler_xxx_1, '0', band_pass_filter_1, '0']
+
+metadata:
+  file_format: 1
+  grc_version: 3.10.12.0
